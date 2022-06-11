@@ -70,7 +70,12 @@ namespace brok1
                 endpoints.MapControllerRoute(name: "tgwebhook",
                                              pattern: $"bot/{token}",
                                              new { controller = "Webhook", action = "Post" });
-                endpoints.MapControllers();
+                //endpoints.MapControllerRoute(name: "default",
+                //                             pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "pay",
+                                          pattern: $"Pay/Index",
+                                          new { controller = "Pay", action = "Index" });
+                //endpoints.MapControllers();
             });
         }
     }

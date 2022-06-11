@@ -25,7 +25,7 @@ namespace brok1.Controllers
                     Console.WriteLine($"Pay is done. {user.userid}, amount {user.paydata.payAmount}");
                 }
             }
-            return View();
+            return Ok();
         }
     }
 }
