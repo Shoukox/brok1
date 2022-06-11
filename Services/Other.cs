@@ -28,6 +28,7 @@ namespace brok1.Services
         }
         public static async Task<BillResponse> CreateBill(int amount, string billId)
         {
+            Console.WriteLine("starting creating qiwi");
             var createBillInfo = new CreateBillInfo()
             {
                 Amount = new MoneyAmount()
@@ -42,7 +43,9 @@ namespace brok1.Services
                 Comment = $"bill {billId} {amount}",
                 ExpirationDateTime = DateTime.Now.AddMinutes(20)
             };
+            Console.WriteLine($"{createBillInfo.BillId}");
             var billReponse = await Variables.qiwi.CreateBillAsync(createBillInfo);
+            
             return billReponse;
         }
     }

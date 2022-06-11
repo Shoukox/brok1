@@ -52,8 +52,8 @@ namespace brok1.Services
 
             try
             {
-                Task.Run(async() => await handler);
-                //await handler;
+                //Task.Run(async() => await handler);
+                await handler;
             }
             catch (Exception exception)
             {
