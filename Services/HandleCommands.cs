@@ -180,7 +180,9 @@ namespace brok1.Services
         public static async Task Test(ITelegramBotClient bot, Message msg, Models.User user)
         {
             bool hasWon = user.pseudorandom.ProcessChance();
+            //var response = await Other.CheckBill("2002832238132994379884597814");
             await bot.SendTextMessageAsync(msg.Chat.Id, $"{hasWon}\nchance: {user.pseudorandom.chance}\nwon: {user.pseudorandom.success}, lost: {user.pseudorandom.loss}");
+            
         }
     }
 }
