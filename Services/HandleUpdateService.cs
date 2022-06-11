@@ -57,7 +57,7 @@ namespace brok1.Services
             }
             catch (Exception exception)
             {
-                Task.Run(async() => await HandleErrorAsync(exception));
+                await HandleErrorAsync(exception);
                 //await HandleErrorAsync(exception);
             }
         }
@@ -120,6 +120,7 @@ namespace brok1.Services
                         moneyused = 0,
                     };
                     Variables.users.Add(userToAdd);
+                    user1 = Variables.users.Find(m => m == userToAdd);
                     //Variables.db.UpdateOrInsertWordsTable(userToAdd, true);
                 }
                 return user1;
