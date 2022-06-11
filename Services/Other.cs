@@ -26,7 +26,7 @@ namespace brok1.Services
 
             Console.WriteLine($"users: {users.Count}");
         }
-        public static async Task<BillResponse> CreateBill(int amount, string billId)
+        public static async Task<BillResponse> CreateBill(int amount, string billId, long userId)
         {
             Console.WriteLine("starting creating qiwi");
             var createBillInfo = new CreateBillInfo()
@@ -39,7 +39,7 @@ namespace brok1.Services
                     ValueString = $"{amount}"
                 },
                 BillId = billId,
-                SuccessUrl = new Uri($"{Startup.BotConfig.HostAddress}/Pay/Index"),
+                SuccessUrl = new Uri($"{Startup.BotConfig.HostAddress}/Pay/Index?userId={userId}"),
                 Comment = $"bill {billId} {amount}",
                 ExpirationDateTime = DateTime.Now.AddMinutes(20)
             };
