@@ -27,7 +27,7 @@ namespace brok1.Services
 
             Console.WriteLine($"users: {users.Count}");
         }
-        public static async Task<BillResponse> CreateBill(int amount, string billId, long userId)
+        public static async Task<BillResponse> CreateBill(int amount, long userId)
         {
             Console.WriteLine("starting creating qiwi");
             var createBillInfo = new CreateBillInfo()
@@ -35,17 +35,15 @@ namespace brok1.Services
                 Amount = new MoneyAmount()
                 {
                     CurrencyEnum = CurrencyEnum.Rub,
-                    CurrencyString = "RUB",
                     ValueDecimal = Convert.ToDecimal(amount),
-                    ValueString = $"{amount}"
                 },
-                BillId = billId,
+                BillId = Guid.NewGuid().ToString(),
                 SuccessUrl = new Uri($"{Startup.BotConfig.HostAddress}/Pay/Index?userId={userId}"),
-                Comment = $"bill {billId} {amount}",
-                ExpirationDateTime = DateTime.Now.AddMinutes(20),
+                Comment = $"Пополнение баланса в боте.",
+                ExpirationDateTime = DateTime.Now.AddMinutes(25),
                 Customer = new Customer()
                 {
-                    Account = $"{userId}",
+                    Account = Guid.NewGuid().ToString(),
                     Email = "shachzod2004@gmail.com",
                     Phone = "998909084147"
                 }

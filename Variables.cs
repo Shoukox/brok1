@@ -41,7 +41,7 @@ namespace brok1
         public static string[] buttons = new[] { "Баланс", "Рулетка", "Тех. поддержка", "Информация", "Пополнить", "Вывести", "Назад", "Крутить" };
 
         public static string qiwiToken = "3599523b7912c1a6cca174ead91fcaf1";
-        public static string publicQiwiToken = "48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPpZQCqD4ek7JzjymAr44qh5QcfRuEdhBr5e1zHzx7RAp7fQUYbEyXs82pEGR2CoN6SVdkafEZDMEnDoEMfxYmkxjVRXk8vvc2q4msMCCtx";
-        public static string privateQiwiToken = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6ImNtMmE2YS0wMCIsInVzZXJfaWQiOiI5OTg5MzM4NTkyNTgiLCJzZWNyZXQiOiI3YmFhYjNkZDdkMDRiMzdmYmNlMzViYWU2NzNiYzM5NjQ1ZTNkZTc2NmFiNmE5MWFlOWRlMzg0ZThkMTJmZDc5In19";
+        public static string publicQiwiToken = "48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPpZQCqD4ek7JzjymAr44qh5QcfRuEdhBr5e1zHzx7RAp7fQUYbEyY3BB8cQ6tXWaq5eUXprfrXd4pvUskVH6LCpbfhvP3JUWgEvX7Sj9bH";
+        public static string privateQiwiToken = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6ImNtMmE2YS0wMCIsInVzZXJfaWQiOiI5OTg5MzM4NTkyNTgiLCJzZWNyZXQiOiJkMTE4NjdjNTM0MzMzNzNlZDJmYWMyMWRkMmVjNDNjOWM5M2FhZGQzN2E2MTJhMjVlZGIwYjFlZjZhMzcwNmRmIn19";
     }
 }
