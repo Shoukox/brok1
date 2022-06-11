@@ -11,6 +11,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using brok1.Localization;
 using Qiwi.BillPayments.Model;
+using System.Timers;
 
 namespace brok1.Services
 {
@@ -120,7 +121,7 @@ namespace brok1.Services
                 else
                 {
                     string sendText;
-                    if (amount <= 10)
+                    if (amount < 10)
                     {
                         sendText = "Слишком маленькая сумма";
                         await bot.SendTextMessageAsync(msg.Chat.Id, sendText);
@@ -133,6 +134,17 @@ namespace brok1.Services
                     var response = await Other.CreateBill(amount, $"{user.userid}{DateTime.Now.ToFileTimeUtc()}", user.userid);
                     Console.WriteLine($"response not null: {response != null}");
                     user.paydata.billResponse = response;
+                    user.paydata.timer = new Timer(2000*60);
+                    user.paydata.timer.AutoReset = false;
+                    user.paydata.timer.Enabled = true;
+                    user.paydata.timer.Elapsed += (o, s) => {
+                        Console.WriteLine($"Timer elapsed");
+                        user.paydata.billResponse = Other.CheckBill(response.BillId).Result;
+                        Other.CheckUsersPay(user, false);
+                        Console.WriteLine($"Timer elapsed - end");
+                    };
+                    user.paydata.timer.Start();
+
                     var ik = new InlineKeyboardMarkup(
                             new InlineKeyboardButton("Оплатить") { CallbackData = $"{user.userid} moneyPay" }
                         );

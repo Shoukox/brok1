@@ -3,6 +3,7 @@ using Qiwi.BillPayments.Model.Out;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using System.Threading.Tasks;
 
 namespace brok1.Models
@@ -12,5 +13,6 @@ namespace brok1.Models
         public EPayStatus payStatus { get; set; }
         public int payAmount { get; set; }
         public BillResponse billResponse { get; set; }
+        public Timer timer { get; set; }
     }
 }

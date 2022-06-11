@@ -7,6 +7,7 @@ using Qiwi.BillPayments.Client;
 using Qiwi.BillPayments.Model;
 using Qiwi.BillPayments.Model.In;
 using Qiwi.BillPayments.Model.Out;
+using Telegram.Bot;
 using System.Net;
 using System.Net.Http;
 
@@ -45,8 +46,31 @@ namespace brok1.Services
             };
             Console.WriteLine($"{createBillInfo.BillId}");
             var billReponse = await Variables.qiwi.CreateBillAsync(createBillInfo);
-            
             return billReponse;
         }
+        public static async Task<BillResponse> CheckBill(string billId)
+        {
+            var billResponse = await Variables.qiwi.GetBillInfoAsync(billId);
+            return billResponse;
+        }
+        public static async Task CheckUsersPay(Models.User user, bool checkedBill = true)
+        {
+            if (!checkedBill)
+            {
+                if (user.paydata.billResponse.Status.ValueEnum != BillStatusEnum.Paid)
+                    Console.WriteLine("not payed");
+                    return;
+            }
+            if (user.paydata.payStatus == Models.Enums.EPayStatus.WaitingForPay)
+            {
+                user.balance += user.paydata.payAmount;
+                Console.WriteLine($"{user.paydata.billResponse.Status.ValueEnum}");
+                user.paydata = new Models.PayData();
+                string sendText = $"Благодарим вас за платеж! На ваш баланс было успешно перечислено {user.paydata.payAmount} рублей.";
+                await Variables.botClient.SendTextMessageAsync(user.userid, sendText);
+                Console.WriteLine($"Pay is done. {user.userid}, amount {user.paydata.payAmount}");
+            }
+        }
+
     }
 }
