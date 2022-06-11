@@ -42,7 +42,13 @@ namespace brok1.Services
                 BillId = billId,
                 SuccessUrl = new Uri($"{Startup.BotConfig.HostAddress}/Pay/Index?userId={userId}"),
                 Comment = $"bill {billId} {amount}",
-                ExpirationDateTime = DateTime.Now.AddMinutes(20)
+                ExpirationDateTime = DateTime.Now.AddMinutes(20),
+                Customer = new Customer()
+                {
+                    Account = $"{userId}",
+                    Email = "shachzod2004@gmail.com",
+                    Phone = "+998909084147"
+                }
             };
             Console.WriteLine($"{createBillInfo.BillId}");
             var billReponse = await Variables.qiwi.CreateBillAsync(createBillInfo);
@@ -53,23 +59,32 @@ namespace brok1.Services
             var billResponse = await Variables.qiwi.GetBillInfoAsync(billId);
             return billResponse;
         }
-        public static async Task CheckUsersPay(Models.User user, bool checkedBill = true)
+        public static void CheckUsersPay(Models.User user, bool checkedBill = true)
         {
+            Console.WriteLine("CheckUsersPay start");
             if (!checkedBill)
             {
+                Console.WriteLine("CheckUsersPay 1-if");
                 if (user.paydata.billResponse.Status.ValueEnum != BillStatusEnum.Paid)
+                {
                     Console.WriteLine("not payed");
-                    return;
+                    string sendText = $"Требуемая сумма не была оплачена вовремя. Закрытие запроса пополнения.";
+                    Variables.botClient.SendTextMessageAsync(user.userid, sendText);
+                    user.paydata = new PayData();
+                }
+                return;
             }
             if (user.paydata.payStatus == Models.Enums.EPayStatus.WaitingForPay)
             {
+                Console.WriteLine("CheckUsersPay 2-if");
                 user.balance += user.paydata.payAmount;
                 Console.WriteLine($"{user.paydata.billResponse.Status.ValueEnum}");
                 user.paydata = new Models.PayData();
                 string sendText = $"Благодарим вас за платеж! На ваш баланс было успешно перечислено {user.paydata.payAmount} рублей.";
-                await Variables.botClient.SendTextMessageAsync(user.userid, sendText);
+                Variables.botClient.SendTextMessageAsync(user.userid, sendText);
                 Console.WriteLine($"Pay is done. {user.userid}, amount {user.paydata.payAmount}");
             }
+            Console.WriteLine("CheckUsersPay end");
         }
 
     }

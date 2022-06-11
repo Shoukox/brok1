@@ -138,10 +138,17 @@ namespace brok1.Services
                     user.paydata.timer.AutoReset = false;
                     user.paydata.timer.Enabled = true;
                     user.paydata.timer.Elapsed += (o, s) => {
-                        Console.WriteLine($"Timer elapsed");
-                        user.paydata.billResponse = Other.CheckBill(response.BillId).Result;
-                        Other.CheckUsersPay(user, false);
-                        Console.WriteLine($"Timer elapsed - end");
+                        try
+                        {
+                            Console.WriteLine($"Timer elapsed");
+                            user.paydata.billResponse = Other.CheckBill(response.BillId).Result;
+                            Other.CheckUsersPay(user, false);
+                            Console.WriteLine($"Timer elapsed - end");
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     };
                     user.paydata.timer.Start();
 
