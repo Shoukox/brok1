@@ -47,7 +47,7 @@ namespace brok1.Services
                 {
                     Account = $"{userId}",
                     Email = "shachzod2004@gmail.com",
-                    Phone = "+998909084147"
+                    Phone = "998909084147"
                 }
             };
             Console.WriteLine($"{createBillInfo.BillId}");
