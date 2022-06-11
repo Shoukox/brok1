@@ -120,7 +120,7 @@ namespace brok1.Services
                         moneyused = 0,
                     };
                     Variables.users.Add(userToAdd);
-                    Variables.db.UpdateOrInsertWordsTable(userToAdd, true);
+                    //Variables.db.UpdateOrInsertWordsTable(userToAdd, true);
                 }
                 return user1;
             });
