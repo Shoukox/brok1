@@ -10,15 +10,11 @@ namespace brok1.Localization
         public static ILocalization GetLang(string lang)
         {
             ILocalization language = new ru();
-            switch (lang)
+            language = lang switch
             {
-                case "ru":
-                    language = new ru();
-                    break;
-                default:
-                    language = new ru();
-                    break;
-            }
+                "ru" => new ru(),
+                _ => new ru(),
+            };
             return language;
         }
         public static string ReplaceEmpty(string text, string[] replace)

@@ -131,12 +131,14 @@ namespace brok1.Services
                     user.paydata.payStatus = Models.Enums.EPayStatus.WaitingForConfirmation;
                     Console.WriteLine($"creating response qiwi");
                     Console.WriteLine($"{user.userid}{DateTime.Now.ToFileTimeUtc()}");
-                    var response = await Other.CreateBill(amount, $"{user.userid}{DateTime.Now.ToFileTimeUtc()}", user.userid);
+                    var response = await Other.CreateBill(amount, user.userid);
                     Console.WriteLine($"response not null: {response != null}");
                     user.paydata.billResponse = response;
-                    user.paydata.timer = new Timer(2000*60);
-                    user.paydata.timer.AutoReset = false;
-                    user.paydata.timer.Enabled = true;
+                    user.paydata.timer = new Timer(2000 * 60)
+                    {
+                        AutoReset = false,
+                        Enabled = true
+                    };
                     user.paydata.timer.Elapsed += (o, s) => {
                         try
                         {
