@@ -129,7 +129,7 @@ namespace brok1.Services
                     user.paydata.payAmount = amount;
                     user.paydata.payStatus = Models.Enums.EPayStatus.WaitingForConfirmation;
                     Console.WriteLine($"creating response qiwi");
-                    var response = await Other.CreateBill(amount, $"{user.userid}{DateTime.Now}");
+                    var response = await Other.CreateBill(amount, $"{user.userid}{DateTime.Now.ToFileTimeUtc()}");
                     Console.WriteLine($"response not null: {response != null}");
                     user.paydata.billResponse = response;
                     var ik = new InlineKeyboardMarkup(
