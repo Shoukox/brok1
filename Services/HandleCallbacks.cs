@@ -94,7 +94,7 @@ namespace brok1.Services
             {
                 user.stage = Models.Enums.EStage.moneyAddAnsweredYes;
                 user.paydata.payStatus = Models.Enums.EPayStatus.WaitingForPay;
-                string sendText = Langs.ReplaceEmpty(Langs.GetLang("ru").money_billCreated(), new[] { $"{user.paydata.billResponse.PayUrl.AbsoluteUri}" });
+                string sendText = Langs.ReplaceEmpty(Langs.GetLang("ru").money_billCreated(), new[] { $"{user.paydata.billResponse.Amount.ValueString}", $"{user.paydata.billResponse.PayUrl.AbsoluteUri}" });
                 await bot.SendTextMessageAsync(user.userid, sendText, Telegram.Bot.Types.Enums.ParseMode.Html);
             }
         }
