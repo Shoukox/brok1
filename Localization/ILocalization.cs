@@ -17,11 +17,17 @@ namespace brok1.Localization
 
         public string money_billCreated();
         public string money_billInfo();
+        public string money_billCanceled();
 
         public string roulette_win();
         public string roulette_lose();
+        public string roulette_limit();
+
+        public string shop_item();
 
         public string notifyAdminAboutUserWantsToPay();
         public string notifyAdminAboutUserWantsToPayConfirmation();
+
+        public string error_restartBot();
     }
 }

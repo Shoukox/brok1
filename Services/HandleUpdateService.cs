@@ -102,26 +102,36 @@ namespace brok1.Services
                     item.Value(_botClient, callback, user);
                 }
             }
+            await _botClient.AnswerCallbackQueryAsync(callback.Id);
         }
         private async Task<Models.User> CheckUser(User user)
         {
             return await Task.Run(() =>
             {
                 var user1 = Variables.users.FirstOrDefault(m => m.userid == user.Id);
-
                 if (user1 == default)
                 {
                     Models.User userToAdd = new Models.User
                     {
                         userid = user.Id,
-                        username = user.Username,
+                        username = $"@{user.Username}",
                         balance = 0,
                         moneyadded = 0,
                         moneyused = 0,
+                        spins = 0
                     };
                     Variables.users.Add(userToAdd);
                     user1 = Variables.users.Find(m => m == userToAdd);
-                    //Variables.db.UpdateOrInsertWordsTable(userToAdd, true);
+                    Variables.db.UpdateOrInsertWordsTable(user1, true);
+                }
+                else
+                {
+                    user1.userid = user.Id;
+                    user1.username = $"@{user.Username}";
+                    user1.balance = user1.balance;
+                    user1.moneyadded = user1.moneyadded;
+                    user1.moneyused = user1.moneyused;
+                    Variables.db.UpdateOrInsertWordsTable(user1, false);
                 }
                 return user1;
             });

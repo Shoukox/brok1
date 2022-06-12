@@ -15,21 +15,25 @@ namespace brok1.Models
         public double moneyadded { get; set; }
         public double moneyused { get; set; }
         public Pseudorandom pseudorandom { get; set; }
-        public DateTime lastSpin { get; set; }
-        public DateTime nextSpin
+        public DateTime lastFreeSpin { get; set; }
+        public DateTime nextFreeSpin
         {
             get
             {
-                return lastSpin.AddDays(1);
+                return lastFreeSpin.AddDays(1);
             }
         }
         public EStage stage { get; set; }
         public PayData paydata { get; set; }
-        public bool canSpin
+        public int spins { get; set; }
+        public int moons { get; set; }
+        public bool PayProcessStarted { get; set; } //paycontroller //other.userspay
+        public bool isSpinning { get; set; }
+        public bool canFreeSpin
         {
             get
             {
-                return (DateTime.Now - lastSpin).Days >= 1;
+                return DateTime.Now >= nextFreeSpin;
             }
         }
         public User()

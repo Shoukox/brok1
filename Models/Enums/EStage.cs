@@ -10,5 +10,8 @@ namespace brok1.Models.Enums
         Other = 0,
         moneyAddProcessing = 1,
         moneyAddAnsweredYes = 2,
+        waitingForQIWINumber = 3,
+        waitingQiwiNumberConfirmation = 4
+
     }
 }

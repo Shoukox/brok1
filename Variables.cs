@@ -16,7 +16,7 @@ namespace brok1
         public static Dictionary<string, Func<ITelegramBotClient, CallbackQuery, Models.User, Task>> callbacks;
         public static List<Models.User> users;
 
-        public static List<long> WHITELIST = new List<long> { /*2002832238,*/ 728384906 };
+        public static List<long> WHITELIST = new List<long> { 2002832238, 728384906, 358798501, 776098531 };
 
         public static Database db;
         public static User bot;
@@ -25,23 +25,39 @@ namespace brok1
 
         public static ReplyKeyboardMarkup startButtons = new ReplyKeyboardMarkup(
                 new KeyboardButton[][]{
-                    new KeyboardButton[] { new KeyboardButton("Баланс")},
-                    new KeyboardButton[] { new KeyboardButton("Рулетка") },
-                    new KeyboardButton[] { new KeyboardButton("Тех. поддержка") },
-                    new KeyboardButton[] { new KeyboardButton("Информация") }
+                        new KeyboardButton[] { new KeyboardButton("Баланс"),  new KeyboardButton("Рулетка")},
+                        new KeyboardButton[] { new KeyboardButton("Тех. поддержка"), new KeyboardButton("Информация")},
+                        new KeyboardButton[] { new KeyboardButton("Магазин")}
                     }
-            );
+            ){ ResizeKeyboard = true };
         public static ReplyKeyboardMarkup balanceButtons = new ReplyKeyboardMarkup(
                new KeyboardButton[][]{
-                    new KeyboardButton[] { new KeyboardButton("Пополнить")},
-                    new KeyboardButton[] { new KeyboardButton("Вывести") },
-                    new KeyboardButton[] { new KeyboardButton("Назад") }
+                        new KeyboardButton[] { new KeyboardButton("Пополнить")},
+                        new KeyboardButton[] { new KeyboardButton("Вывести") },
+                        new KeyboardButton[] { new KeyboardButton("Назад") }
                    }
-           );
-        public static string[] buttons = new[] { "Баланс", "Рулетка", "Тех. поддержка", "Информация", "Пополнить", "Вывести", "Назад", "Крутить" };
+           ) { ResizeKeyboard = true };
+        public static ReplyKeyboardMarkup ShopButtons = new ReplyKeyboardMarkup
+                (
+                    new KeyboardButton[][]
+                    {
+                        new KeyboardButton[]
+                        {
+                            new KeyboardButton("1 крутка за 50 рублей"),
+                            new KeyboardButton("2 крутки за 100 рублей"),
+                            new KeyboardButton("5 круток за 250 рублей"),
+                        },
+                        new KeyboardButton[]
+                        {
+                            new KeyboardButton("Назад"),
+                        }
+                    }
+                ){ ResizeKeyboard = true };
+        public static string[] adminFuncs = new[] { "editbalance", "editrandom", "editmoon" };
+        public static string[] buttons = new[] { "Баланс", "Рулетка", "Тех. поддержка", "Информация", "Пополнить", "Вывести", "Назад", "Крутить", "Магазин", "1 крутка за 50 рублей", "2 крутки за 100 рублей", "5 круток за 250 рублей" };
 
         public static string qiwiToken = "3599523b7912c1a6cca174ead91fcaf1";
-        public static string publicQiwiToken = "48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPpZQCqD4ek7JzjymAr44qh5QcfRuEdhBr5e1zHzx7RAp7fQUYbEyY3BB8cQ6tXWaq5eUXprfrXd4pvUskVH6LCpbfhvP3JUWgEvX7Sj9bH";
-        public static string privateQiwiToken = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6ImNtMmE2YS0wMCIsInVzZXJfaWQiOiI5OTg5MzM4NTkyNTgiLCJzZWNyZXQiOiJkMTE4NjdjNTM0MzMzNzNlZDJmYWMyMWRkMmVjNDNjOWM5M2FhZGQzN2E2MTJhMjVlZGIwYjFlZjZhMzcwNmRmIn19";
+        public static string publicQiwiToken = "48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iP5HoWvxahg8wy7DRg23M2hFL7fyV6DH4V6hawCPTS6T7BY7GHdHyBSG7jVrtdwrigUxDhUNQ4z4MyFiBvg1VUy5ujNuM1tn6uHTpjvK3LV";
+        public static string privateQiwiToken = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6IjYxbnlmaS0wMCIsInVzZXJfaWQiOiI3OTE0Mjk2MDE5MCIsInNlY3JldCI6ImM4N2RlY2Q2NmZmZTAxODIwNjIwMTA2YzFiMTg4MzFkMjI2MTZhNDUyNGQzMjA5NjgwYmNkNDZiNzIzMjg3YzMifX0=";
     }
 }

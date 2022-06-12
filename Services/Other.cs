@@ -17,11 +17,24 @@ namespace brok1.Services
     {
         public static void LoadData()
         {
-            var users = Variables.db.GetData("SELECT * FROM users", 5);
+            var users = Variables.db.GetData("SELECT * FROM users", 9);
 
             foreach (var item in users)
             {
-                User user = new User { userid = (long)item[0], username = (string)item[1], balance = (double)item[2], moneyadded = (double)item[3], moneyused = (double)item[4] };
+                Pseudorandom pseudorandom = new Pseudorandom(2);
+                pseudorandom.LoadData((string)item[5]);
+                User user = new User
+                {
+                    userid = (long)item[0],
+                    username = (string)item[1],
+                    balance = (double)item[2],
+                    moneyadded = (double)item[3],
+                    moneyused = (double)item[4],
+                    pseudorandom = pseudorandom,
+                    lastFreeSpin = DateTime.Parse((string)item[6]),
+                    spins = (int)item[7],
+                    moons = (int)item[8]
+                };
                 Variables.users.Add(user);
             }
 
@@ -39,7 +52,7 @@ namespace brok1.Services
                 },
                 BillId = Guid.NewGuid().ToString(),
                 SuccessUrl = new Uri($"{Startup.BotConfig.HostAddress}/Pay/Index?userId={userId}"),
-                Comment = $"Пополнение баланса в боте.",
+                Comment = $"Пополнение баланса в боте",
                 ExpirationDateTime = DateTime.Now.AddMinutes(25),
                 Customer = new Customer()
                 {
@@ -57,6 +70,11 @@ namespace brok1.Services
             var billResponse = await Variables.qiwi.GetBillInfoAsync(billId);
             return billResponse;
         }
+        public static async Task<BillResponse> CancelBill(string billId)
+        {
+            var billResponse = await Variables.qiwi.CancelBillAsync(billId);
+            return billResponse;
+        }
         public static void CheckUsersPay(Models.User user, bool checkedBill = true)
         {
             Console.WriteLine("CheckUsersPay start");
@@ -68,7 +86,19 @@ namespace brok1.Services
                     Console.WriteLine("not payed");
                     string sendText = $"Требуемая сумма не была оплачена вовремя. Закрытие запроса пополнения.";
                     Variables.botClient.SendTextMessageAsync(user.userid, sendText);
+                    user.paydata.timer.Stop();
                     user.paydata = new PayData();
+                }
+                else
+                {
+                    Console.WriteLine("CheckUsersPay 1-if_1");
+                    user.balance += user.paydata.payAmount;
+                    user.moneyadded += user.paydata.payAmount;
+                    string sendText = $"Благодарим вас за платеж! На ваш баланс было успешно перечислено {user.paydata.payAmount} рублей.";
+                    user.paydata.timer.Stop();
+                    user.paydata = new Models.PayData();
+                    Variables.botClient.SendTextMessageAsync(user.userid, sendText);
+                    Console.WriteLine($"Pay is done. {user.userid}, amount {user.paydata.payAmount}");
                 }
                 return;
             }
@@ -76,13 +106,26 @@ namespace brok1.Services
             {
                 Console.WriteLine("CheckUsersPay 2-if");
                 user.balance += user.paydata.payAmount;
+                user.moneyadded += user.paydata.payAmount;
                 Console.WriteLine($"{user.paydata.billResponse.Status.ValueEnum}");
-                user.paydata = new Models.PayData();
                 string sendText = $"Благодарим вас за платеж! На ваш баланс было успешно перечислено {user.paydata.payAmount} рублей.";
-                Variables.botClient.SendTextMessageAsync(user.userid, sendText);
                 Console.WriteLine($"Pay is done. {user.userid}, amount {user.paydata.payAmount}");
+                user.paydata.timer.Stop();
+                user.paydata = new Models.PayData();
+                Variables.botClient.SendTextMessageAsync(user.userid, sendText);
             }
+            Variables.db.UpdateOrInsertWordsTable(user, false);
             Console.WriteLine("CheckUsersPay end");
+        }
+        public static void NotifyAdmins(ITelegramBotClient bot, string notify)
+        {
+            Task.Run(async () =>
+            {
+                foreach (var item in Variables.WHITELIST)
+                {
+                    await bot.SendTextMessageAsync(item, notify, Telegram.Bot.Types.Enums.ParseMode.Html);
+                }
+            });
         }
 
     }

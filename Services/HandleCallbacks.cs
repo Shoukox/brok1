@@ -98,5 +98,52 @@ namespace brok1.Services
                 await bot.SendTextMessageAsync(user.userid, sendText, Telegram.Bot.Types.Enums.ParseMode.Html);
             }
         }
+        public static async Task shop(ITelegramBotClient bot, CallbackQuery callback, Models.User user)
+        {
+            string[] splittedCallback = callback.Data.Split(" ");
+            string[] item = splittedCallback[2].Split("_");
+            int count = int.Parse(item[0]);
+            int amount = int.Parse(item[1]);
+
+            if(user.balance < amount)
+            {
+                string sendText = "Недостаточно средств на балансе";
+                await bot.SendTextMessageAsync(callback.Message.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html);
+                return;
+            }
+            user.balance -= amount;
+            user.moneyused += amount;
+            user.spins += count;
+            Variables.db.UpdateOrInsertWordsTable(user, false);
+            await bot.SendTextMessageAsync(callback.Message.Chat.Id, $"Вы успешно купили {count} круток за {amount} рублей", Telegram.Bot.Types.Enums.ParseMode.Html);
+        }
+        public static async Task moonout(ITelegramBotClient bot, CallbackQuery callback, Models.User user)
+        {
+            string[] splittedCallback = callback.Data.Split(" ");
+            string answer = splittedCallback[2];
+
+            bool isAllDigit = true;
+            string text = callback.Message.Text.Split("\n")[1].Replace(" ", "").Replace("+", "");
+            foreach(char chr in text)
+            {
+                if (!char.IsDigit(chr))
+                    isAllDigit = false;
+            }
+
+            if (answer == "yes" && isAllDigit && user.stage == Models.Enums.EStage.waitingQiwiNumberConfirmation)
+            {
+                user.stage = Models.Enums.EStage.Other;
+                user.moons -= 1;
+                Other.NotifyAdmins(bot, $"Запрос на вывод.\nUserId: {user.userid}\nСообщения с кошельком:\n\n{callback.Message.Text}");
+                string sendText = "Отлично. С вашего баланса списана 1 Луна. Ваши данные были переданы модераторам бота. Ожидайте перевода в течении дня.";
+                await bot.SendTextMessageAsync(callback.Message.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html);
+            }
+            else
+            {
+                string sendText = "Повторите ввод. Если вы считаете, что это ошибка, перезапустите бота - /restart";
+                await bot.SendTextMessageAsync(callback.Message.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html);
+            }
+            Variables.db.UpdateOrInsertWordsTable(user, false);
+        }
     }
 }
