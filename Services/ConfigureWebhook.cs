@@ -80,11 +80,11 @@ namespace brok1.Services
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            using var scope = _services.CreateScope();
-            var botClient = scope.ServiceProvider.GetRequiredService<ITelegramBotClient>();
+            //using var scope = _services.CreateScope();
+            //var botClient = scope.ServiceProvider.GetRequiredService<ITelegramBotClient>();
 
-            Console.WriteLine("Removing webhook");
-            await botClient.DeleteWebhookAsync(cancellationToken: cancellationToken);
+            //Console.WriteLine("Removing webhook");
+            //await botClient.DeleteWebhookAsync(cancellationToken: cancellationToken);
         }
     }
 }
