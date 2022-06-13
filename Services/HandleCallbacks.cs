@@ -115,7 +115,7 @@ namespace brok1.Services
             user.moneyused += amount;
             user.spins += count;
             Variables.db.UpdateOrInsertWordsTable(user, false);
-            await bot.SendTextMessageAsync(callback.Message.Chat.Id, $"Вы успешно купили {count} круток за {amount} рублей", Telegram.Bot.Types.Enums.ParseMode.Html);
+            await bot.SendTextMessageAsync(callback.Message.Chat.Id, $"Вы успешно купили за <b>{amount}</b> рублей следующее количество круток: <b>{count}</b>", Telegram.Bot.Types.Enums.ParseMode.Html);
         }
         public static async Task moonout(ITelegramBotClient bot, CallbackQuery callback, Models.User user)
         {

@@ -32,8 +32,7 @@ namespace brok1
             ){ ResizeKeyboard = true };
         public static ReplyKeyboardMarkup balanceButtons = new ReplyKeyboardMarkup(
                new KeyboardButton[][]{
-                        new KeyboardButton[] { new KeyboardButton("Пополнить")},
-                        new KeyboardButton[] { new KeyboardButton("Вывести") },
+                        new KeyboardButton[] { new KeyboardButton("Пополнить"), new KeyboardButton("Вывести") },
                         new KeyboardButton[] { new KeyboardButton("Назад") }
                    }
            ) { ResizeKeyboard = true };
