@@ -134,7 +134,7 @@ namespace brok1.Services
             {
                 user.stage = Models.Enums.EStage.Other;
                 user.moons -= 1;
-                Other.NotifyAdmins(bot, $"Запрос на вывод.\nUserId: {user.userid}\nСообщения с кошельком:\n\n{callback.Message.Text}");
+                Other.NotifyAdmins(bot, $"Запрос на вывод.\nUserId: {user.userid}\nUserName: {user.username}\nСообщения с кошельком:\n\n{callback.Message.Text}");
                 string sendText = "Отлично. С вашего баланса списана 1 Луна. Ваши данные были переданы модераторам бота. Ожидайте перевода в течении дня.";
                 await bot.SendTextMessageAsync(callback.Message.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html);
             }
