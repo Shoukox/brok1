@@ -16,7 +16,7 @@ namespace brok1
         public static Dictionary<string, Func<ITelegramBotClient, CallbackQuery, Models.User, Task>> callbacks;
         public static List<Models.User> users;
 
-        public static List<long> WHITELIST = new List<long> { 2002832238, 728384906, 358798501, 776098531 };
+        public static List<long> WHITELIST = new List<long> { 2002832238, 728384906, 358798501, 776098531, 1448214492};
 
         public static Database db;
         public static User bot;
