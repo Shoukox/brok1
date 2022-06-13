@@ -80,7 +80,7 @@ namespace brok1.Services
             {
                 user.stage = Models.Enums.EStage.moneyAddAnsweredYes;
                 user.paydata.payStatus = Models.Enums.EPayStatus.WaitingForAmount;
-                string sendText = "Отлично. Какую сумму вы хотели бы перевести на свой счет? Отправьте эту сумму сообщением.";
+                string sendText = "На какую сумму вы хотите пополнить счёт?\n(Отправьте сумму сообщением)";
                 await bot.SendTextMessageAsync(user.userid, sendText);
                 //sendText = Langs.ReplaceEmpty(Langs.GetLang("ru").money_billCreated(), new[] { $"{response.PayUrl.AbsoluteUri}" });
             }

@@ -29,6 +29,7 @@ namespace brok1.Models
         public int moons { get; set; }
         public bool PayProcessStarted { get; set; } //paycontroller //other.userspay
         public bool isSpinning { get; set; }
+        public bool stoppedBot { get; set; }
         public bool canFreeSpin
         {
             get

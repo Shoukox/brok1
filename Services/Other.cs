@@ -17,7 +17,7 @@ namespace brok1.Services
     {
         public static void LoadData()
         {
-            var users = Variables.db.GetData("SELECT * FROM users", 9);
+            var users = Variables.db.GetData("SELECT * FROM users", 10);
 
             foreach (var item in users)
             {
@@ -33,7 +33,8 @@ namespace brok1.Services
                     pseudorandom = pseudorandom,
                     lastFreeSpin = DateTime.Parse((string)item[6]),
                     spins = (int)item[7],
-                    moons = (int)item[8]
+                    moons = (int)item[8],
+                    stoppedBot = (bool)item[9]
                 };
                 Variables.users.Add(user);
             }

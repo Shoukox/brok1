@@ -29,5 +29,6 @@ namespace brok1.Localization
         public string notifyAdminAboutUserWantsToPayConfirmation();
 
         public string error_restartBot();
+        public string error_noMoons();
     }
 }

@@ -13,6 +13,7 @@ namespace brok1
         private NpgsqlConnection _conn;
         private Queue<Func<Task>> _queue;
         private Thread _queueThread;
+        public bool isThreadWorking;
 
         public Database(string connString)
         {
@@ -20,20 +21,23 @@ namespace brok1
             _queue = new Queue<Func<Task>>();
             _queueThread = new Thread(
                 new ThreadStart(() => _processQueue()));
+            isThreadWorking = false;
 
             _conn.Open();
         }
 
         private void _processQueue()
         {
+            isThreadWorking = true;
             while (true)
             {
                 if(_queue.Count == 0)
                 {
                     break;  
                 }
-                _queue.Dequeue().Invoke().Wait();
+                _queue.Dequeue().Invoke();
             }
+            isThreadWorking = false;
         }
 
         /// <summary>
@@ -50,14 +54,14 @@ namespace brok1
                         {
                             if (!inserting)
                             {
-                                using (NpgsqlCommand cmd = new NpgsqlCommand($"UPDATE users SET username='{user.username}', balance={user.balance}, moneyAdded={user.moneyadded}, moneyUsed={user.moneyused}, pseudorandom='{user.pseudorandom.SaveData()}', lastfreespin='{user.lastFreeSpin}', spins={user.spins}, moons={user.moons} WHERE userid={user.userid}", _conn))
+                                using (NpgsqlCommand cmd = new NpgsqlCommand($"UPDATE users SET username='{user.username}', balance={user.balance}, moneyAdded={user.moneyadded}, moneyUsed={user.moneyused}, pseudorandom='{user.pseudorandom.SaveData()}', lastfreespin='{user.lastFreeSpin}', spins={user.spins}, moons={user.moons}, stoppedbot={user.stoppedBot} WHERE userid={user.userid}", _conn))
                                 {
                                     cmd.ExecuteNonQuery();
                                     return Task.CompletedTask;
                                 }
                             }
 
-                            using (NpgsqlCommand cmd = new NpgsqlCommand($"INSERT INTO users(userid, username, balance, moneyadded, moneyused, pseudorandom, lastfreespin, spins, moons) VALUES({user.userid}, '{user.username}', {user.balance}, {user.moneyadded}, {user.moneyused}, '{user.pseudorandom.SaveData()}', '{user.lastFreeSpin}', {user.spins}, {user.moons})", _conn))
+                            using (NpgsqlCommand cmd = new NpgsqlCommand($"INSERT INTO users(userid, username, balance, moneyadded, moneyused, pseudorandom, lastfreespin, spins, moons, stoppedbot) VALUES({user.userid}, '{user.username}', {user.balance}, {user.moneyadded}, {user.moneyused}, '{user.pseudorandom.SaveData()}', '{user.lastFreeSpin}', {user.spins}, {user.moons}, {user.stoppedBot})", _conn))
                             {
                                 cmd.ExecuteNonQuery();
                                 return Task.CompletedTask;
@@ -69,7 +73,13 @@ namespace brok1
                             return Task.FromException(e);
                         }
                     }));
-            if (!_queueThread.IsAlive)
+            //if (!_queueThread.IsAlive)
+            //{
+            //    //Task.Run(() => _processQueue());
+            //    _queueThread = new Thread(new ThreadStart(() => _processQueue()));
+            //    _queueThread.Start();
+            //}
+            if (!isThreadWorking)
             {
                 //Task.Run(() => _processQueue());
                 _queueThread = new Thread(new ThreadStart(() => _processQueue()));

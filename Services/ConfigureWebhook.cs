@@ -35,7 +35,8 @@ namespace brok1.Services
                 { new string[] {"/info"},   new Func<ITelegramBotClient, Message, Models.User, Task>(HandleCommands.Info)},
                 { new string[] {"/panel"},   new Func<ITelegramBotClient, Message, Models.User, Task>(HandleCommands.AdminPanel)},
                 { new string[] {"/shop"},   new Func<ITelegramBotClient, Message, Models.User, Task>(HandleCommands.Shop)},
-                { new string[] {"/test"},   new Func<ITelegramBotClient, Message, Models.User, Task>(HandleCommands.Test)},
+                { new string[] {"/stats"},   new Func<ITelegramBotClient, Message, Models.User, Task>(HandleCommands.Stats)},
+                /*{ new string[] {"/test"},   new Func<ITelegramBotClient, Message, Models.User, Task>(HandleCommands.Test)},*/
             };
             Variables.callbacks = new Dictionary<string, Func<ITelegramBotClient, CallbackQuery, Models.User, Task>>()
             {

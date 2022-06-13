@@ -43,9 +43,9 @@ namespace brok1
                     {
                         new KeyboardButton[]
                         {
-                            new KeyboardButton("1 крутка за 50 рублей"),
-                            new KeyboardButton("2 крутки за 100 рублей"),
-                            new KeyboardButton("5 круток за 250 рублей"),
+                            new KeyboardButton("1 крутка за 50р"),
+                            new KeyboardButton("2 крутки за 100р"),
+                            new KeyboardButton("5 круток за 250р"),
                         },
                         new KeyboardButton[]
                         {
@@ -54,7 +54,7 @@ namespace brok1
                     }
                 ){ ResizeKeyboard = true };
         public static string[] adminFuncs = new[] { "editbalance", "editrandom", "editmoon" };
-        public static string[] buttons = new[] { "Баланс", "Рулетка", "Тех. поддержка", "Информация", "Пополнить", "Вывести", "Назад", "Крутить", "Магазин", "1 крутка за 50 рублей", "2 крутки за 100 рублей", "5 круток за 250 рублей" };
+        public static string[] buttons = new[] { "Баланс", "Рулетка", "Тех. поддержка", "Информация", "Пополнить", "Вывести", "Назад", "Крутить", "Магазин", "1 крутка за 50р", "2 крутки за 100р", "5 круток за 250р" };
 
         public static string qiwiToken = "3599523b7912c1a6cca174ead91fcaf1";
         public static string publicQiwiToken = "48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iP5HoWvxahg8wy7DRg23M2hFL7fyV6DH4V6hawCPTS6T7BY7GHdHyBSG7jVrtdwrigUxDhUNQ4z4MyFiBvg1VUy5ujNuM1tn6uHTpjvK3LV";

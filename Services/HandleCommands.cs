@@ -92,15 +92,16 @@ namespace brok1.Services
                     case "Вывести":
                         if (user.moons == 0)
                         {
-                            await bot.SendTextMessageAsync(msg.Chat.Id, "У вас нет лун", replyToMessageId: msg.MessageId);
+                            sendText = Langs.GetLang("ru").error_noMoons();
+                            await bot.SendTextMessageAsync(msg.Chat.Id, sendText, replyToMessageId: msg.MessageId);
                             return;
                         }
                         sendText = Langs.GetLang("ru").button_moneyOut();
                         user.stage = Models.Enums.EStage.waitingForQIWINumber;
-                        await bot.SendTextMessageAsync(msg.Chat.Id, sendText + "\nВведите ваш номер Qiwi", replyToMessageId: msg.MessageId);
+                        await bot.SendTextMessageAsync(msg.Chat.Id, sendText, replyToMessageId: msg.MessageId);
                         break;
                     case "Крутить":
-                        sendText = "Прокручиваем рулетку";
+                        sendText = "Прокручиваем рулетку\n";
                         if (user.canFreeSpin || user.spins >= 1 /*|| Variables.WHITELIST.Contains(msg.From.Id)*/)
                         {
                             if (user.isSpinning)
@@ -159,21 +160,21 @@ namespace brok1.Services
                         sendText = "Магазин";
                         await bot.SendTextMessageAsync(msg.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html, replyMarkup: Variables.ShopButtons, replyToMessageId: msg.MessageId);
                         break;
-                    case "1 крутка за 50 рублей":
+                    case "1 крутка за 50р":
                         string itemName = "1 крутка";
                         int amount = 50;
                         sendText = Langs.ReplaceEmpty(Langs.GetLang("ru").shop_item(), new[] { $"{itemName}", $"{user.balance}", $"{amount}" });
                         ik = new InlineKeyboardMarkup(new InlineKeyboardButton("Купить") { CallbackData = $"{user.userid} shop 1_50" });
                         await bot.SendTextMessageAsync(msg.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html, replyToMessageId: msg.MessageId, replyMarkup: ik);
                         break;
-                    case "2 крутки за 100 рублей":
+                    case "2 крутки за 100р":
                         itemName = "2 крутки";
                         amount = 100;
                         sendText = Langs.ReplaceEmpty(Langs.GetLang("ru").shop_item(), new[] { $"{itemName}", $"{user.balance}", $"{amount}" });
                         ik = new InlineKeyboardMarkup(new InlineKeyboardButton("Купить") { CallbackData = $"{user.userid} shop 2_100" });
                         await bot.SendTextMessageAsync(msg.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html, replyToMessageId: msg.MessageId, replyMarkup: ik);
                         break;
-                    case "5 круток за 250 рублей":
+                    case "5 круток за 250р":
                         itemName = "5 круток";
                         amount = 250;
                         sendText = Langs.ReplaceEmpty(Langs.GetLang("ru").shop_item(), new[] { $"{itemName}", $"{user.balance}", $"{amount}" });
@@ -382,6 +383,14 @@ namespace brok1.Services
                 $"native_chance: {user1.pseudorandom.chance}\n" +
                 $"fact_chance: {user1.pseudorandom.secretChance}";
             await bot.SendTextMessageAsync(msg.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html, replyToMessageId: msg.MessageId, replyMarkup: Variables.startButtons);
+        }
+        public static async Task Stats(ITelegramBotClient bot, Message msg, Models.User user)
+        {
+            if (!Variables.WHITELIST.Contains(msg.From.Id))
+                return;
+
+            string sendText = $"users: {Variables.users.Count}";
+            await bot.SendTextMessageAsync(msg.Chat.Id, sendText, Telegram.Bot.Types.Enums.ParseMode.Html, replyToMessageId: msg.MessageId);
         }
         public static async Task Shop(ITelegramBotClient bot, Message msg, Models.User user)
         {
