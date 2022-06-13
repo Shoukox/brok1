@@ -223,7 +223,7 @@ namespace brok1.Services
 
                     Console.WriteLine($"response not null: {response != null}");
                     user.paydata.billResponse = response;
-                    user.paydata.timer = new Timer(2000 * 60)
+                    user.paydata.timer = new Timer(24000 * 60)
                     {
                         AutoReset = false,
                         Enabled = true
