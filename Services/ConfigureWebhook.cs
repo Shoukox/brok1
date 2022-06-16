@@ -45,19 +45,11 @@ namespace brok1.Services
                 { "shop", new Func<ITelegramBotClient, CallbackQuery, Models.User, Task>(HandleCallbacks.shop)},
                 { "moonout", new Func<ITelegramBotClient, CallbackQuery, Models.User, Task>(HandleCallbacks.moonout)},
             };
-            //Variables.db = new Database("Host=localhost;" +
-            //                "Port=1337;" +
-            //                "User ID=postgres;" +
-            //                "Password=5202340;" +
-            //                "Database=brok1;" +
-            //                "Pooling=true;" +
-            //                //"SSL Mode=Require;" +
-            //                "TrustServerCertificate=true;");
-            Variables.db = new Database("Host=ec2-34-230-110-100.compute-1.amazonaws.com;" +
+            Variables.db = new Database("Host=;" +
                            "Port=5432;" +
-                           "User ID=rebmruibddunox;" +
-                           "Password=4144be9ea53cb55616a0b25c1c25302fc3d7149da26687260e0eaee14cf630c4;" +
-                           "Database=da985ahbb7pct;" +
+                           "User ID=;" +
+                           "Password=;" +
+                           "Database=;" +
                            "Pooling=true;" +
                            //"SSL Mode=Require;" +
                            "TrustServerCertificate=true;");
